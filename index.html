@@ -1344,7 +1344,7 @@
 
   // Ghi dữ liệu lên Firebase khi submit
   window.submitRsvpFirebase = function(data) {
-    push(rsvpRef, data);
+    return push(rsvpRef, data);
   };
 
   // Lắng nghe realtime — cập nhật sổ lưu bút ngay khi có người mới điền
@@ -1780,13 +1780,22 @@ function submitRsvp(e) {
   const guests  = document.getElementById('rsvp-guests').value;
   const msg     = document.getElementById('rsvp-msg').value.trim();
   if (!name || !attend) return;
-  const entry = { name, attend, guests, msg, time: new Date().toISOString() };
+  const entry = {
+    name,
+    attend,
+    guests,
+    msg,
+    time: new Date().toISOString(),
+    clientId: `${Date.now()}-${Math.random().toString(36).slice(2)}`
+  };
   rsvpData.push(entry);
   // Lưu localStorage (backup)
   localStorage.setItem('rsvpData', JSON.stringify(rsvpData));
   // Ghi lên Firebase
   if (typeof window.submitRsvpFirebase === 'function') {
-    window.submitRsvpFirebase(entry);
+    window.submitRsvpFirebase(entry).catch(error => {
+      console.error('Không thể đồng bộ lời nhắn lên Firebase:', error);
+    });
   }
 
   document.getElementById('rsvp-form-wrap').style.display = 'none';
@@ -2030,11 +2039,14 @@ observeGalleryItems();
 window.renderRsvpBookFromFirebase = function(entries) {
   const bookList = document.getElementById('rsvp-book-list');
   if (!bookList) return;
-  if (!entries || !entries.length) {
+  const syncedIds = new Set((entries || []).map(entry => entry.clientId).filter(Boolean));
+  const pendingEntries = rsvpData.filter(entry => entry.clientId && !syncedIds.has(entry.clientId));
+  const visibleEntries = [...pendingEntries.reverse(), ...(entries || [])];
+  if (!visibleEntries.length) {
     bookList.innerHTML = '<p style="text-align:center;color:#c77daa;font-style:italic;padding:20px">Chưa có lời nhắn nào. Hãy điền vào <a href="#rsvp" style="color:var(--pink1);font-weight:700">Tham Dự Nhé?</a> 🌸</p>';
     return;
   }
-  bookList.innerHTML = entries.map((r, i) => {
+  bookList.innerHTML = visibleEntries.map((r, i) => {
     const icon  = r.attend === 'yes' ? '🌸' : r.attend === 'no' ? '😢' : '🤔';
     const label = r.attend === 'yes' ? 'Có tham dự' : r.attend === 'no' ? 'Tiếc quá, bận mất rồi' : 'Có thể tham dự';
     const color = r.attend === 'yes' ? '#2d9e3a' : r.attend === 'no' ? '#c9184a' : '#f4a261';
