@@ -1535,36 +1535,26 @@ const musicIcon= document.getElementById('music-icon');
 const musicLabel=document.getElementById('music-label');
 let musicPlaying = false;
 
-// Tự động load & phát nhạc ngay khi user tương tác lần đầu
-(function autoLoadMusic() {
-  const firstTrack = 'music/có hẹn với thanh xuân.mp3';
-  audio.src = firstTrack;
-  audio.volume = 0.75;
-
-  // Phát ngay khi mở (nếu trình duyệt cho phép)
+function playBackgroundMusic() {
+  if (!envelopeOpened || !audio.src) return;
   audio.play().then(() => {
     musicPlaying = true;
     musicBar.classList.remove('paused');
     musicIcon.textContent = '🎵';
-  }).catch(() => {
-    // Trình duyệt chặn → chờ user chạm/click lần đầu rồi tự phát
-    const startOnInteraction = () => {
-      audio.play().then(() => {
-        musicPlaying = true;
-        musicBar.classList.remove('paused');
-        musicIcon.textContent = '🎵';
-      }).catch(() => {});
-      document.removeEventListener('click',   startOnInteraction);
-      document.removeEventListener('keydown', startOnInteraction);
-      document.removeEventListener('scroll',  startOnInteraction);
-      document.removeEventListener('touchstart', startOnInteraction);
-    };
-    document.addEventListener('click',      startOnInteraction, { once: true });
-    document.addEventListener('keydown',    startOnInteraction, { once: true });
-    document.addEventListener('scroll',     startOnInteraction, { once: true });
-    document.addEventListener('touchstart', startOnInteraction, { once: true });
-  });
+  }).catch(() => {});
+}
+
+// Chỉ nạp nhạc trước; chỉ phát sau khi người xem mở thiệp
+(function autoLoadMusic() {
+  const firstTrack = 'music/có hẹn với thanh xuân.mp3';
+  audio.src = firstTrack;
+  audio.volume = 0.75;
 })();
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) playBackgroundMusic();
+});
+window.addEventListener('pageshow', playBackgroundMusic);
 
 const tracks = [
   { src: 'music/có hẹn với thanh xuân.mp3', name: 'Có Hẹn Với Thanh Xuân' },
@@ -1640,11 +1630,7 @@ function toggleMusic() {
     musicBar.classList.add('paused');
     musicIcon.textContent = '⏸';
   } else {
-    audio.play().then(() => {
-      musicPlaying = true;
-      musicBar.classList.remove('paused');
-      musicIcon.textContent = '🎵';
-    }).catch(e => console.log(e));
+    playBackgroundMusic();
   }
 }
 
@@ -2043,13 +2029,7 @@ function openEnvelope() {
       reveal.style.opacity = '0';
       reveal.style.pointerEvents = 'none';
       // Phát nhạc
-      if (!musicPlaying && audio.src) {
-        audio.play().then(() => {
-          musicPlaying = true;
-          musicBar.classList.remove('paused');
-          musicIcon.textContent = '🎵';
-        }).catch(() => {});
-      }
+      playBackgroundMusic();
       setTimeout(() => {
         reveal.remove();
         const intro = document.getElementById('intro');
