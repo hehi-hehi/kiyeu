@@ -1862,6 +1862,13 @@ function resetRsvp() {
   document.getElementById('rsvp-success').style.display = 'none';
 }
 
+function formatRsvpTime(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return `${date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' })} ${date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
+}
+
 function renderRsvpList() {
   // Danh sách ở sổ lưu bút
   const bookList = document.getElementById('rsvp-book-list');
@@ -1874,6 +1881,7 @@ function renderRsvpList() {
     const icon  = r.attend === 'yes' ? '🌸' : r.attend === 'no' ? '😢' : '🤔';
     const label = r.attend === 'yes' ? 'Có tham dự' : r.attend === 'no' ? 'Tiếc quá, bận mất rồi' : 'Có thể tham dự';
     const color = r.attend === 'yes' ? '#2d9e3a' : r.attend === 'no' ? '#c9184a' : '#f4a261';
+    const time  = formatRsvpTime(r.time);
     return `<div style="background:#fff;border-radius:4px 12px 12px 4px;
         box-shadow:-4px 0 0 ${color},0 3px 12px rgba(255,107,157,0.1);
         padding:14px 18px;display:flex;justify-content:space-between;align-items:flex-start;
@@ -1881,6 +1889,7 @@ function renderRsvpList() {
         background-image:repeating-linear-gradient(transparent,transparent 24px,#ffeef4 24px,#ffeef4 25px);">
       <div style="flex:1">
         <div style="font-family:'Dancing Script',cursive;font-size:1.1rem;color:var(--pink1);font-weight:700">${r.name}</div>
+        <div style="font-size:0.72rem;color:#dbb0c4;margin-top:3px">${time}</div>
         ${r.msg ? `<div style="font-size:0.88rem;color:#7a3a5a;margin-top:4px;line-height:1.5">"${r.msg}"</div>` : ''}
         ${parseInt(r.guests) > 0 ? `<div style="font-size:0.78rem;color:#c77daa;margin-top:3px">+${r.guests} người đi cùng</div>` : ''}
       </div>
@@ -2103,7 +2112,7 @@ window.renderRsvpBookFromFirebase = function(entries) {
     const icon  = r.attend === 'yes' ? '🌸' : r.attend === 'no' ? '😢' : '🤔';
     const label = r.attend === 'yes' ? 'Có tham dự' : r.attend === 'no' ? 'Tiếc quá, bận mất rồi' : 'Có thể tham dự';
     const color = r.attend === 'yes' ? '#2d9e3a' : r.attend === 'no' ? '#c9184a' : '#f4a261';
-    const time  = r.time ? new Date(r.time).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'}) + ' ' + new Date(r.time).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}) : '';
+    const time  = formatRsvpTime(r.time);
     return `<div style="background:#fff;border-radius:4px 12px 12px 4px;
         box-shadow:-4px 0 0 ${color},0 3px 12px rgba(255,107,157,0.1);
         padding:14px 18px;display:flex;justify-content:space-between;align-items:flex-start;
