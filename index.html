@@ -225,7 +225,10 @@
   .music-track-item .track-icon { font-size: 1rem; width: 18px; text-align:center; }
 
   /* ===== FLOATING PETALS ===== */
-  #petals-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
+  #petals-canvas {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 3;
+  }
 
   /* ===== SECTIONS COMMON ===== */
   section {
@@ -234,6 +237,7 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     position: relative; z-index: 2;
   }
+  section > * { position: relative; z-index: 4; }
   .section-title {
     font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 800;
     font-family: 'Be Vietnam Pro', sans-serif;
