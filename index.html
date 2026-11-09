@@ -233,6 +233,23 @@
     transform: translateZ(0); -webkit-transform: translateZ(0);
     z-index: 2147483647 !important;
   }
+  #falling-effects {
+    position: fixed; inset: 0; overflow: hidden;
+    pointer-events: none; z-index: 2147483646;
+  }
+  .falling-effect {
+    position: absolute; top: -12vh; left: var(--left);
+    color: var(--color); font-size: var(--size);
+    line-height: 1; opacity: .8;
+    filter: drop-shadow(0 2px 3px rgba(201,24,74,.18));
+    animation: fallingEffect var(--duration) linear var(--delay) infinite;
+    will-change: transform;
+  }
+  @keyframes fallingEffect {
+    0% { transform: translate3d(0, -12vh, 0) rotate(0deg); }
+    50% { transform: translate3d(var(--sway), 55vh, 0) rotate(180deg); }
+    100% { transform: translate3d(calc(var(--sway) * -1), 115vh, 0) rotate(360deg); }
+  }
 
   /* ===== SECTIONS COMMON ===== */
   section {
@@ -1016,6 +1033,7 @@
 
 <!-- ===== CANVAS FOR PETALS ===== -->
 <canvas id="petals-canvas"></canvas>
+<div id="falling-effects" aria-hidden="true"></div>
 
 <!-- ===== MUSIC PLAYER ===== -->
 <div id="music-bar" onclick="toggleMusic()">
@@ -1479,6 +1497,25 @@
     requestAnimationFrame(loop);
   }
   loop();
+})();
+
+/* DOM fallback for mobile browsers that composite canvas inconsistently */
+(function() {
+  const layer = document.getElementById('falling-effects');
+  if (!layer) return;
+  const symbols = ['🌸', '🌺', '🌷', '💕', '💖', '❤️', '🩷'];
+  for (let i = 0; i < 28; i += 1) {
+    const item = document.createElement('span');
+    item.className = 'falling-effect';
+    item.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    item.style.setProperty('--left', `${Math.random() * 100}%`);
+    item.style.setProperty('--size', `${18 + Math.random() * 16}px`);
+    item.style.setProperty('--color', `hsl(${330 + Math.random() * 25} 85% 65%)`);
+    item.style.setProperty('--sway', `${-30 + Math.random() * 60}px`);
+    item.style.setProperty('--duration', `${7 + Math.random() * 8}s`);
+    item.style.setProperty('--delay', `${-Math.random() * 12}s`);
+    layer.appendChild(item);
+  }
 })();
 
 /* ===================================================
