@@ -178,24 +178,6 @@
     position: relative;
   }
 
-  /* ===== NAVIGATION ===== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: rgba(255,107,157,0.92);
-    backdrop-filter: blur(10px);
-    display: flex; justify-content: center; align-items: center;
-    gap: 6px; padding: 10px 16px;
-    box-shadow: 0 2px 16px rgba(255,107,157,0.4);
-    flex-wrap: wrap;
-  }
-  nav a {
-    color: #fff; text-decoration: none; font-weight: 600;
-    padding: 6px 14px; border-radius: 20px;
-    font-size: 0.85rem; letter-spacing: 0.5px;
-    transition: background .2s;
-  }
-  nav a:hover { background: rgba(255,255,255,0.25); }
-
   /* ===== MUSIC PLAYER ===== */
   #music-bar {
     position: fixed; bottom: 20px; right: 20px; z-index: 1100;
@@ -837,10 +819,6 @@
 
   /* Tablet & mobile ≤ 768px */
   @media (max-width: 768px) {
-    /* Nav */
-    nav { gap: 2px; padding: 8px 8px; }
-    nav a { font-size: 0.72rem; padding: 5px 8px; }
-
     /* Sections */
     section { padding: 80px 16px 48px; min-height: auto; }
 
@@ -883,7 +861,6 @@
 
   /* Điện thoại nhỏ ≤ 480px */
   @media (max-width: 480px) {
-    nav a { font-size: 0.65rem; padding: 4px 6px; }
     .profile-avatar { width: 180px; height: 180px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 260px; }
     .gallery-item:nth-child(n) { grid-column: span 1; grid-row: span 1; min-height: 0; }
@@ -987,17 +964,6 @@
 
 <!-- ===== CANVAS FOR PETALS ===== -->
 <canvas id="petals-canvas"></canvas>
-
-<!-- ===== NAVIGATION ===== -->
-<nav>
-  <a href="#hero">🌸 Trang Chủ</a>
-  <a href="#hero">👤 Nhân Vật Chính</a>
-  <a href="#info">📋 Thông Tin</a>
-  <a href="#schedule">📅 Lịch Trình</a>
-  <a href="#gallery">📷 Khoảnh Khắc</a>
-  <a href="#rsvp">🌸 Tham Dự</a>
-  <a href="#guestbook">💌 Lưu Bút</a>
-</nav>
 
 <!-- ===== MUSIC PLAYER ===== -->
 <div id="music-bar" onclick="toggleMusic()">
