@@ -1536,7 +1536,7 @@ const musicLabel=document.getElementById('music-label');
 let musicPlaying = false;
 
 function playBackgroundMusic() {
-  if (!envelopeOpened || !audio.src) return;
+  if (!audio.src) return;
   audio.play().then(() => {
     musicPlaying = true;
     musicBar.classList.remove('paused');
@@ -1549,6 +1549,18 @@ function playBackgroundMusic() {
   const firstTrack = 'music/có hẹn với thanh xuân.mp3';
   audio.src = firstTrack;
   audio.volume = 0.75;
+  audio.autoplay = true;
+  playBackgroundMusic();
+
+  const startOnInteraction = () => {
+    playBackgroundMusic();
+    document.removeEventListener('click', startOnInteraction);
+    document.removeEventListener('touchstart', startOnInteraction);
+    document.removeEventListener('pointerdown', startOnInteraction);
+  };
+  document.addEventListener('click', startOnInteraction, { once: true });
+  document.addEventListener('touchstart', startOnInteraction, { once: true });
+  document.addEventListener('pointerdown', startOnInteraction, { once: true });
 })();
 
 document.addEventListener('visibilitychange', () => {
