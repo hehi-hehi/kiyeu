@@ -231,11 +231,11 @@
     width: 100vw; height: 100vh; display: block;
     pointer-events: none; visibility: visible; opacity: 1;
     transform: translateZ(0); -webkit-transform: translateZ(0);
-    z-index: 2147483647 !important;
+    z-index: 9997 !important;
   }
   #falling-effects {
     position: fixed; inset: 0; overflow: hidden;
-    pointer-events: none; z-index: 2147483646;
+    pointer-events: none; z-index: 9996;
   }
   .falling-effect {
     position: absolute; top: -12vh; left: var(--left);
@@ -1924,8 +1924,8 @@ function renderRsvpList() {
       this.y     = init ? Math.random() * (H || window.innerHeight) : -30;
       const isMobile = window.matchMedia('(max-width: 768px)').matches;
       this.speed = isMobile
-        ? 1.1 + Math.random() * 1.5
-        : 0.8 + Math.random() * 1.4;
+        ? 0.8 + Math.random() * 1.2
+        : 1.8 + Math.random() * 2.2;
       this.wind  = (Math.random() - 0.4) * 1.1;
       this.rot   = Math.random() * Math.PI * 2;
       this.rotS  = (Math.random() - 0.5) * 0.05;
@@ -1975,7 +1975,7 @@ function renderRsvpList() {
     }
   }
 
-  const introParticleCount = window.matchMedia('(max-width: 768px)').matches ? 26 : 22;
+  const introParticleCount = window.matchMedia('(max-width: 768px)').matches ? 26 : 14;
   const particles = Array.from({length: introParticleCount}, (_, i) => new IntroParticle(true));
 
   function loop() {
