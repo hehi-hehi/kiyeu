@@ -1552,11 +1552,17 @@ let musicPlaying = false;
 
 function playBackgroundMusic() {
   if (!audio.src) return;
+  if (audio.readyState === 0) audio.load();
   audio.play().then(() => {
     musicPlaying = true;
     musicBar.classList.remove('paused');
     musicIcon.textContent = '🎵';
-  }).catch(() => {});
+  }).catch(error => {
+    musicPlaying = false;
+    musicBar.classList.add('paused');
+    musicIcon.textContent = '⏸';
+    console.warn('Không thể phát nhạc nền:', error);
+  });
 }
 
 // Chỉ nạp nhạc trước; chỉ phát sau khi người xem mở thiệp
@@ -1569,19 +1575,26 @@ function playBackgroundMusic() {
 
   const startOnInteraction = () => {
     playBackgroundMusic();
-    document.removeEventListener('click', startOnInteraction);
-    document.removeEventListener('touchstart', startOnInteraction);
-    document.removeEventListener('pointerdown', startOnInteraction);
   };
-  document.addEventListener('click', startOnInteraction, { once: true });
-  document.addEventListener('touchstart', startOnInteraction, { once: true });
-  document.addEventListener('pointerdown', startOnInteraction, { once: true });
+  document.addEventListener('click', startOnInteraction);
+  document.addEventListener('touchstart', startOnInteraction, { passive: true });
+  document.addEventListener('pointerdown', startOnInteraction);
 })();
 
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) playBackgroundMusic();
 });
 window.addEventListener('pageshow', playBackgroundMusic);
+audio.addEventListener('pause', () => {
+  musicPlaying = false;
+  musicBar.classList.add('paused');
+  musicIcon.textContent = '⏸';
+});
+audio.addEventListener('play', () => {
+  musicPlaying = true;
+  musicBar.classList.remove('paused');
+  musicIcon.textContent = '🎵';
+});
 
 const tracks = [
   { src: 'music/có hẹn với thanh xuân.mp3', name: 'Có Hẹn Với Thanh Xuân' },
@@ -1651,11 +1664,8 @@ audio.addEventListener('ended', () => {
 
 function toggleMusic() {
   if (!audio.src) return;
-  if (musicPlaying) {
+  if (!audio.paused) {
     audio.pause();
-    musicPlaying = false;
-    musicBar.classList.add('paused');
-    musicIcon.textContent = '⏸';
   } else {
     playBackgroundMusic();
   }
