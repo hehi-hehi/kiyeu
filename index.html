@@ -531,6 +531,24 @@
     border-top: 3px solid var(--pink1);
     transition: transform .25s, box-shadow .25s;
   }
+  .timeline-item.highlight .timeline-content {
+    background: linear-gradient(135deg, #fff8fb, #ffe1ec);
+    border: 3px solid var(--pink1);
+    box-shadow: 0 10px 30px rgba(201,24,74,.28);
+    transform: scale(1.04);
+  }
+  .timeline-item.highlight .timeline-content::before {
+    content: '✦ ĐIỂM NHẤN ✦';
+    display: block; margin-bottom: 5px;
+    color: #c9184a; font-size: .68rem; font-weight: 800;
+    letter-spacing: 1.5px;
+  }
+  .timeline-item.highlight .timeline-time,
+  .timeline-item.highlight .timeline-title { color: #c9184a; }
+  .timeline-item.highlight .timeline-dot {
+    background: linear-gradient(135deg, #c9184a, var(--pink1));
+    box-shadow: 0 0 0 5px #fff, 0 0 0 9px rgba(255,107,157,.35);
+  }
   .timeline-content:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(255,107,157,0.24); }
   .timeline-time { font-size: 0.82rem; color: var(--pink1); font-weight: 800; letter-spacing: .5px; }
   .timeline-title { font-size: 1rem; font-weight: 700; color: var(--dark); margin: 4px 0 4px; }
@@ -1199,59 +1217,59 @@
   <p class="section-subtitle">Ngày 6 tháng 12 năm 2026</p>
   <div class="timeline">
     <div class="timeline-item" style="animation-delay:.1s">
-      <div class="timeline-dot">🌅</div>
+      <div class="timeline-dot">👗</div>
       <div class="timeline-content">
-        <div class="timeline-time">07:00 – 08:00</div>
-        <div class="timeline-title">Đón tiếp & Check-in</div>
-        <div class="timeline-desc">Tập trung tại sân trường, nhận phù hiệu, chụp ảnh lưu niệm.</div>
+        <div class="timeline-time">07:30 – 10:00</div>
+        <div class="timeline-title">Chụp concept áo dài, vest, cá nhân</div>
+        <div class="timeline-desc">Chụp ảnh cá nhân theo concept áo dài và vest.</div>
       </div>
     </div>
-    <div class="timeline-item" style="animation-delay:.2s">
-      <div class="timeline-dot">🎓</div>
+    <div class="timeline-item highlight" style="animation-delay:.2s">
+      <div class="timeline-dot">👨‍👩‍👧‍👦</div>
       <div class="timeline-content">
-        <div class="timeline-time">08:00 – 09:30</div>
-        <div class="timeline-title">Lễ Phát Biểu & Chia Sẻ</div>
-        <div class="timeline-desc">Phát biểu của thầy cô, lời nhắn nhủ từ giáo viên chủ nhiệm yêu quý.</div>
+        <div class="timeline-time">10:00 – 11:30</div>
+        <div class="timeline-title">Chụp với gia đình, bạn bè</div>
+        <div class="timeline-desc">Khoảnh khắc đặc biệt bên gia đình và những người bạn thân yêu.</div>
       </div>
     </div>
     <div class="timeline-item" style="animation-delay:.3s">
-      <div class="timeline-dot">📸</div>
+      <div class="timeline-dot">🏫</div>
       <div class="timeline-content">
-        <div class="timeline-time">09:30 – 11:00</div>
-        <div class="timeline-title">Chụp Ảnh Kỷ Yếu</div>
-        <div class="timeline-desc">Chụp ảnh từng cá nhân, nhóm bạn thân, toàn lớp tại các địa điểm đẹp.</div>
+        <div class="timeline-time">11:30 – 12:00</div>
+        <div class="timeline-title">Chụp tập thể trong lớp</div>
+        <div class="timeline-desc">Cùng nhau lưu giữ khoảnh khắc tập thể trong lớp.</div>
       </div>
     </div>
     <div class="timeline-item" style="animation-delay:.4s">
       <div class="timeline-dot">🍽️</div>
       <div class="timeline-content">
-        <div class="timeline-time">11:00 – 13:00</div>
-        <div class="timeline-title">Tiệc Trưa Chia Tay</div>
-        <div class="timeline-desc">Bữa tiệc ấm cúng, kết nối và chia sẻ những kỷ niệm đáng nhớ.</div>
+        <div class="timeline-time">12:00 – 14:00</div>
+        <div class="timeline-title">Nghỉ ngơi, ăn trưa & thay trang phục</div>
+        <div class="timeline-desc">Nghỉ ngơi, ăn trưa và thay trang phục cho buổi chiều.</div>
       </div>
     </div>
     <div class="timeline-item" style="animation-delay:.5s">
-      <div class="timeline-dot">🎤</div>
+      <div class="timeline-dot">🌸</div>
       <div class="timeline-content">
-        <div class="timeline-time">13:00 – 15:00</div>
-        <div class="timeline-title">Văn Nghệ & Giao Lưu</div>
-        <div class="timeline-desc">Các tiết mục văn nghệ đặc sắc, trò chơi kết nối, trao quà lưu niệm.</div>
+        <div class="timeline-time">14:00 – 17:00</div>
+        <div class="timeline-title">Chụp concept Thanh Xuân</div>
+        <div class="timeline-desc">Cùng nhau tạo nên những khung hình rực rỡ của tuổi thanh xuân.</div>
       </div>
     </div>
     <div class="timeline-item" style="animation-delay:.6s">
-      <div class="timeline-dot">💌</div>
+      <div class="timeline-dot">🎆</div>
       <div class="timeline-content">
-        <div class="timeline-time">15:00 – 16:30</div>
-        <div class="timeline-title">Ký Lưu Bút & Chia Tay</div>
-        <div class="timeline-desc">Cùng nhau viết lưu bút, trao nhau những lời chúc tốt đẹp nhất.</div>
+        <div class="timeline-time">18:00 – 19:30</div>
+        <div class="timeline-title">Chụp concept Thanh Xuân tối tâm sự + Pháo Hoa</div>
+        <div class="timeline-desc">Khép lại ngày kỷ yếu bằng những khoảnh khắc tâm sự và pháo hoa.</div>
       </div>
     </div>
     <div class="timeline-item" style="animation-delay:.7s">
-      <div class="timeline-dot">🌇</div>
+      <div class="timeline-dot">💖</div>
       <div class="timeline-content">
-        <div class="timeline-time">16:30 – 18:00</div>
-        <div class="timeline-title">Chụp Ảnh Hoàng Hôn</div>
-        <div class="timeline-desc">Chụp ảnh kết thúc, chia sẻ kỷ niệm, hẹn ngày tái ngộ.</div>
+        <div class="timeline-time">19:30</div>
+        <div class="timeline-title">Kết thúc</div>
+        <div class="timeline-desc">Tạm biệt và hẹn gặp lại trong những hành trình mới.</div>
       </div>
     </div>
   </div>
