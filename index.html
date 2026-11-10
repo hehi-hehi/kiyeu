@@ -1701,6 +1701,9 @@ function toggleMusic() {
 /* ===================================================
    GALLERY — tự động load từ images/ nếu có
 =================================================== */
+// Đổi thành true khi muốn bật lại chức năng chỉnh/đổi ảnh.
+const GALLERY_EDITING_ENABLED = false;
+
 // Đường dẫn ảnh mặc định từ thư mục images/
 // Nếu file tồn tại sẽ hiển thị, nếu không sẽ hiển thị placeholder
 const galleryPhotos = new Array(18).fill(null);
@@ -1748,18 +1751,21 @@ function buildGallery() {
     if (galleryPhotos[i]) {
       item.innerHTML = `
         <img src="${galleryPhotos[i]}" alt="${labels[i]}">
-        <div class="gallery-number">${i+1}</div>
-        <div class="gallery-upload-overlay">
-          <span class="gallery-upload-icon">🔄</span>
-          <button type="button" class="gallery-edit-action">Căn chỉnh ảnh</button>
-          <button type="button" class="gallery-replace-action">Đổi ảnh</button>
-        </div>`;
+        <div class="gallery-number">${i+1}</div>`;
+      if (GALLERY_EDITING_ENABLED) {
+        item.insertAdjacentHTML('beforeend', `
+          <div class="gallery-upload-overlay">
+            <span class="gallery-upload-icon">🔄</span>
+            <button type="button" class="gallery-edit-action">Căn chỉnh ảnh</button>
+            <button type="button" class="gallery-replace-action">Đổi ảnh</button>
+          </div>`);
+      }
     } else {
       item.innerHTML = `
         <div class="gallery-placeholder">
           <span class="ph-icon">🌸</span>
           <span>${labels[i]}</span>
-          <span style="font-size:0.75rem;opacity:0.7">Click để tải ảnh</span>
+          ${GALLERY_EDITING_ENABLED ? '<span style="font-size:0.75rem;opacity:0.7">Click để tải ảnh</span>' : ''}
         </div>
         <div class="gallery-number">${i+1}</div>`;
     }
@@ -1781,15 +1787,16 @@ function buildGallery() {
     item.appendChild(inp);
 
     item.addEventListener('click', (e) => {
-      if (e.target.closest('.gallery-edit-action')) {
+      if (GALLERY_EDITING_ENABLED && e.target.closest('.gallery-edit-action')) {
         e.stopPropagation();
         openCropper(i, galleryPhotos[i]);
-      } else if (e.target.closest('.gallery-placeholder') || e.target.closest('.gallery-replace-action')) {
+      } else if (GALLERY_EDITING_ENABLED &&
+                 (e.target.closest('.gallery-placeholder') || e.target.closest('.gallery-replace-action'))) {
         e.stopPropagation();
         inp.click();
       } else if (galleryPhotos[i]) {
         openLightbox(i);
-      } else {
+      } else if (GALLERY_EDITING_ENABLED) {
         inp.click();
       }
     });
