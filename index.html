@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kỷ Yếu Lớp - Kỷ Niệm Đẹp Mãi</title>
+<title>Nguyễn Thị Hồng Ngọc gửi đến iu dấu 🤍</title>
+<meta name="description" content="Tuổi trẻ là hành trình của những kỷ niệm đẹp, hãy cùng mình viết tiếp thanh xuân và lưu giữ những khoảnh khắc không thể nào quên!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nguyễn Thị Hồng Ngọc gửi đến iu dấu 🤍">
+<meta property="og:description" content="Tuổi trẻ là hành trình của những kỷ niệm đẹp, hãy cùng mình viết tiếp thanh xuân và lưu giữ những khoảnh khắc không thể nào quên!">
+<meta property="og:url" content="https://hehi-hehi.github.io/kiyeu/">
+<meta property="og:site_name" content="Thiệp Kỷ Yếu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nguyễn Thị Hồng Ngọc gửi đến iu dấu 🤍">
+<meta name="twitter:description" content="Tuổi trẻ là hành trình của những kỷ niệm đẹp, hãy cùng mình viết tiếp thanh xuân và lưu giữ những khoảnh khắc không thể nào quên!">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='85'%3E%F0%9F%92%96%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff6b9d">
@@ -532,22 +541,16 @@
     transition: transform .25s, box-shadow .25s;
   }
   .timeline-item.highlight .timeline-content {
-    background: linear-gradient(135deg, #fff8fb, #ffe1ec);
-    border: 3px solid var(--pink1);
-    box-shadow: 0 10px 30px rgba(201,24,74,.28);
+    background: linear-gradient(135deg, #f1fffb, #b8f1df);
+    border: 3px solid #2bbf9b;
+    box-shadow: 0 10px 30px rgba(24,151,119,.28);
     transform: scale(1.04);
   }
-  .timeline-item.highlight .timeline-content::before {
-    content: '✦ ĐIỂM NHẤN ✦';
-    display: block; margin-bottom: 5px;
-    color: #c9184a; font-size: .68rem; font-weight: 800;
-    letter-spacing: 1.5px;
-  }
   .timeline-item.highlight .timeline-time,
-  .timeline-item.highlight .timeline-title { color: #c9184a; }
+  .timeline-item.highlight .timeline-title { color: #087a61; }
   .timeline-item.highlight .timeline-dot {
-    background: linear-gradient(135deg, #c9184a, var(--pink1));
-    box-shadow: 0 0 0 5px #fff, 0 0 0 9px rgba(255,107,157,.35);
+    background: linear-gradient(135deg, #35cfa8, #138b70);
+    box-shadow: 0 0 0 5px #fff, 0 0 0 9px rgba(43,191,155,.4);
   }
   .timeline-content:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(255,107,157,0.24); }
   .timeline-time { font-size: 0.82rem; color: var(--pink1); font-weight: 800; letter-spacing: .5px; }
@@ -1111,7 +1114,7 @@
         <div class="event-date-day">06</div>
         <div class="event-date-month">Tháng 12 · 2026</div>
         <div class="event-date-weekday">Chủ Nhật · Kỷ niệm thanh xuân</div>
-        <div class="event-time-badge">🕘 09:30 – 10:30</div>
+        <div class="event-time-badge">🕘 10:00 – 11:30</div>
       </div>
       <!-- Tờ lịch tháng cũ, giữ lại để dễ khôi phục -->
       <div class="legacy-calendar">
@@ -1331,6 +1334,7 @@
           <label class="form-label">Số người đi cùng 👨‍👩‍👧</label>
           <select class="form-select" id="rsvp-guests">
             <option value="0">Chỉ mình tôi</option>
+            <option value="1" data-companion="lover">❤️ Đi cùng người yêu</option>
             <option value="1">+1 người</option>
             <option value="2">+2 người</option>
             <option value="3">+3 người</option>
@@ -1879,13 +1883,16 @@ function submitRsvp(e) {
   e.preventDefault();
   const name    = document.getElementById('rsvp-name').value.trim();
   const attend  = document.querySelector('input[name="attend"]:checked')?.value;
-  const guests  = document.getElementById('rsvp-guests').value;
+  const guestsSelect = document.getElementById('rsvp-guests');
+  const guests  = guestsSelect.value;
+  const guestOption = guestsSelect.options[guestsSelect.selectedIndex];
   const msg     = document.getElementById('rsvp-msg').value.trim();
   if (!name || !attend) return;
   const entry = {
     name,
     attend,
     guests,
+    guestLabel: guestOption.textContent,
     msg,
     time: new Date().toISOString(),
     clientId: `${Date.now()}-${Math.random().toString(36).slice(2)}`
@@ -1940,7 +1947,7 @@ function renderRsvpList() {
         <div style="font-family:'Dancing Script',cursive;font-size:1.1rem;color:var(--pink1);font-weight:700">${r.name}</div>
         <div style="font-size:0.72rem;color:#dbb0c4;margin-top:3px">${time}</div>
         ${r.msg ? `<div style="font-size:0.88rem;color:#7a3a5a;margin-top:4px;line-height:1.5">"${r.msg}"</div>` : ''}
-        ${parseInt(r.guests) > 0 ? `<div style="font-size:0.78rem;color:#c77daa;margin-top:3px">+${r.guests} người đi cùng</div>` : ''}
+        ${parseInt(r.guests) > 0 ? `<div style="font-size:0.78rem;color:#c77daa;margin-top:3px">${r.guestLabel || `+${r.guests} người đi cùng`}</div>` : ''}
       </div>
       <div style="text-align:right;white-space:nowrap">
         <div style="font-size:1.2rem">${icon}</div>
@@ -2168,7 +2175,7 @@ window.renderRsvpBookFromFirebase = function(entries) {
       <div style="flex:1">
         <div style="font-family:'Dancing Script',cursive;font-size:1.1rem;color:var(--pink1);font-weight:700">${r.name}</div>
         ${r.msg ? `<div style="font-size:0.88rem;color:#7a3a5a;margin-top:4px;line-height:1.5">"${r.msg}"</div>` : ''}
-        ${parseInt(r.guests) > 0 ? `<div style="font-size:0.78rem;color:#c77daa;margin-top:3px">+${r.guests} người đi cùng</div>` : ''}
+        ${parseInt(r.guests) > 0 ? `<div style="font-size:0.78rem;color:#c77daa;margin-top:3px">${r.guestLabel || `+${r.guests} người đi cùng`}</div>` : ''}
         <div style="font-size:0.72rem;color:#dbb0c4;margin-top:3px">${time}</div>
       </div>
       <div style="text-align:right;white-space:nowrap">
