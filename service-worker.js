@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kiyeu-v2';
+const CACHE_NAME = 'kiyeu-v3';
 const APP_SHELL = [
   './',
   './index.html',

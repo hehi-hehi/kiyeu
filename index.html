@@ -10,13 +10,13 @@
 <meta property="og:description" content="Tuổi trẻ là hành trình của những kỷ niệm đẹp, hãy cùng mình viết tiếp thanh xuân và lưu giữ những khoảnh khắc không thể nào quên!">
 <meta property="og:url" content="https://hehi-hehi.github.io/kiyeu/">
 <meta property="og:site_name" content="Thiệp Kỷ Yếu">
-<meta property="og:image" content="https://hehi-hehi.github.io/kiyeu/images/ngoc0.jpg">
+<meta property="og:image" content="https://hehi-hehi.github.io/kiyeu/images/n0.jpg">
 <meta property="og:image:alt" content="Ảnh kỷ yếu của Nguyễn Thị Hồng Ngọc">
 <meta property="og:image:type" content="image/jpeg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nguyễn Thị Hồng Ngọc gửi đến iu dấu 🤍">
 <meta name="twitter:description" content="Tuổi trẻ là hành trình của những kỷ niệm đẹp, hãy cùng mình viết tiếp thanh xuân và lưu giữ những khoảnh khắc không thể nào quên!">
-<meta name="twitter:image" content="https://hehi-hehi.github.io/kiyeu/images/ngoc0.jpg">
+<meta name="twitter:image" content="https://hehi-hehi.github.io/kiyeu/images/n0.jpg">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='85'%3E%F0%9F%92%96%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
@@ -1082,7 +1082,7 @@
     <h1 class="hero-title" style="margin-bottom:24px">Thiệp Mời<br>Kỷ Yếu</h1>
     <div class="profile-avatar-wrap">
       <div class="profile-avatar" id="profile-avatar" onclick="document.getElementById('profile-img-input').click()">
-        <img id="profile-img" src="images/ngoc0.jpg" alt="Ảnh đại diện" style="display:block">
+        <img id="profile-img" src="images/n0.jpg" alt="Ảnh đại diện" style="display:block">
         <div class="profile-avatar-placeholder" id="profile-placeholder" style="display:none">
           <span style="font-size:2.5rem">🌸</span>
           <span style="font-size:0.8rem;color:#c77daa">Chọn ảnh</span>
@@ -1576,6 +1576,7 @@ const musicBar = document.getElementById('music-bar');
 const musicIcon= document.getElementById('music-icon');
 const musicLabel=document.getElementById('music-label');
 let musicPlaying = false;
+let musicPausedByUser = false;
 
 function playBackgroundMusic() {
   if (!audio.src) return;
@@ -1601,7 +1602,7 @@ function playBackgroundMusic() {
   playBackgroundMusic();
 
   const startOnInteraction = () => {
-    playBackgroundMusic();
+    if (!musicPausedByUser) playBackgroundMusic();
   };
   document.addEventListener('click', startOnInteraction);
   document.addEventListener('touchstart', startOnInteraction, { passive: true });
@@ -1609,9 +1610,11 @@ function playBackgroundMusic() {
 })();
 
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) playBackgroundMusic();
+  if (!document.hidden && !musicPausedByUser) playBackgroundMusic();
 });
-window.addEventListener('pageshow', playBackgroundMusic);
+window.addEventListener('pageshow', () => {
+  if (!musicPausedByUser) playBackgroundMusic();
+});
 audio.addEventListener('pause', () => {
   musicPlaying = false;
   musicBar.classList.add('paused');
@@ -1665,6 +1668,7 @@ function closeDropdown() {
 
 function selectTrack(i) {
   trackIndex = i;
+  musicPausedByUser = false;
   const t = tracks[i];
   audio.src = t.src;
   musicLabel.textContent = t.name;
@@ -1692,8 +1696,10 @@ audio.addEventListener('ended', () => {
 function toggleMusic() {
   if (!audio.src) return;
   if (!audio.paused) {
+    musicPausedByUser = true;
     audio.pause();
   } else {
+    musicPausedByUser = false;
     playBackgroundMusic();
   }
 }
@@ -1701,13 +1707,14 @@ function toggleMusic() {
 /* ===================================================
    GALLERY — tự động load từ images/ nếu có
 =================================================== */
-// Đổi thành true khi muốn bật lại chức năng chỉnh/đổi ảnh.
+// Đổi thành true khi muốn bật lại chức năng chỉnh/đổi ảnh false.
 const GALLERY_EDITING_ENABLED = false;
 
 // Đường dẫn ảnh mặc định từ thư mục images/
 // Nếu file tồn tại sẽ hiển thị, nếu không sẽ hiển thị placeholder
+const GALLERY_STORAGE_KEY = 'galleryPhotos-v2';
 const galleryPhotos = new Array(18).fill(null);
-const savedGalleryPhotos = JSON.parse(localStorage.getItem('galleryPhotos') || '[]');
+const savedGalleryPhotos = JSON.parse(localStorage.getItem(GALLERY_STORAGE_KEY) || '[]');
 savedGalleryPhotos.forEach((src, i) => {
   if (typeof src === 'string' && src) galleryPhotos[i] = src;
 });
@@ -1715,9 +1722,9 @@ savedGalleryPhotos.forEach((src, i) => {
 (function preloadFromFolder() {
   // Tên file ảnh thực tế trong thư mục images/
   const fileNames = [
-    'ngoc0.jpg','ngoc1.jpg','ngoc2.jpg','ngoc3.jpg','ngoc4.jpg','ngoc5.jpg',
-    'ngoc6.jpg','ngoc7.jpg','ngoc8.jpg','ngoc9.jpg','ngoc10.jpg','ngoc11.jpg',
-    'ngoc12.jpg','ngoc13.jpg','ngoc14.jpg','ngoc15.jpg','ngoc16.jpg','ngoc17.jpg'
+    'n0.jpg','n1.jpg','n2.jpg','n3.jpg','n4.jpg','n5.jpg',
+    'n6.jpg','n7.jpg','n8.jpg','n9.jpg','n10.jpg','n11.jpg',
+    'n12.jpg','n13.jpg','n14.jpg','n15.jpg','n16.jpg','n17.jpg'
   ];
   fileNames.forEach((name, i) => {
     const src = `images/${name}`;
@@ -1853,7 +1860,7 @@ document.getElementById('crop-save').addEventListener('click', () => {
   if (!cropper || cropIndex < 0) return;
   const canvas = cropper.getCroppedCanvas({ width: 800, height: 1200, imageSmoothingQuality: 'high' });
   galleryPhotos[cropIndex] = canvas.toDataURL('image/jpeg', 0.9);
-  localStorage.setItem('galleryPhotos', JSON.stringify(galleryPhotos));
+  localStorage.setItem(GALLERY_STORAGE_KEY, JSON.stringify(galleryPhotos));
   closeCropper();
   buildGallery();
 });
