@@ -208,7 +208,11 @@
     color: #fff; font-size: 0.82rem;
     cursor: pointer; user-select: none;
   }
-  #music-bar .music-icon { font-size: 1.3rem; animation: spin 3s linear infinite; }
+  #music-bar .music-icon {
+    border: 0; padding: 0; background: transparent; color: inherit;
+    font: inherit; font-size: 1.3rem; line-height: 1; cursor: pointer;
+    animation: spin 3s linear infinite;
+  }
   #music-bar.paused .music-icon { animation-play-state: paused; }
   @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
@@ -1067,8 +1071,10 @@
 <div id="falling-effects" aria-hidden="true"></div>
 
 <!-- ===== MUSIC PLAYER ===== -->
-<div id="music-bar" onclick="toggleMusic()">
-  <span class="music-icon" id="music-icon">🎵</span>
+<div id="music-bar">
+  <button type="button" class="music-icon" id="music-icon"
+          onclick="event.stopPropagation(); toggleMusic()"
+          aria-label="Bật hoặc tắt nhạc">🎵</button>
   <span id="music-label">Có Hẹn Với Thanh Xuân</span>
   <span id="music-arrow" onclick="event.stopPropagation(); toggleTrackList()" title="Chọn bài" style="cursor:pointer; font-size:1rem; padding: 0 2px; transition: transform .2s; display:inline-block">▾</span>
   <div id="music-dropdown"></div>
@@ -1601,7 +1607,8 @@ function playBackgroundMusic() {
   audio.autoplay = true;
   playBackgroundMusic();
 
-  const startOnInteraction = () => {
+  const startOnInteraction = event => {
+    if (event.target.closest('#music-bar')) return;
     if (!musicPausedByUser) playBackgroundMusic();
   };
   document.addEventListener('click', startOnInteraction);
